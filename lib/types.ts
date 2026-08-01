@@ -20,6 +20,7 @@ export interface Study {
 
 export interface SummaryResult {
   text: string;
+  truncated: boolean;
 }
 
 export interface ResearchResponse {

@@ -15,6 +15,26 @@ function ncbiParams(extra: Record<string, string>): URLSearchParams {
   return params;
 }
 
+const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
+
+/** NCBI enforces a tight per-IP rate limit (3 req/sec unauthenticated, 10
+ * with an api_key) and returns 429s under load. Retries transient failures
+ * with exponential backoff rather than surfacing a hard error to the user
+ * for what's usually a momentary throttle. */
+async function fetchWithRetry(url: string, label: string, maxRetries = 3): Promise<Response> {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url);
+    if (res.ok) return res;
+    if (!RETRYABLE_STATUS.has(res.status) || attempt >= maxRetries) {
+      throw new Error(`${label} failed: ${res.status} ${res.statusText}`);
+    }
+    // Jittered so the two parallel ESearch calls in searchPubMed() don't
+    // retry in lockstep and re-collide on the same rate-limit window.
+    const delayMs = 500 * 2 ** attempt + Math.random() * 300;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+}
+
 async function esearch(term: string, retmax: number): Promise<string[]> {
   const params = ncbiParams({
     db: "pubmed",
@@ -23,10 +43,7 @@ async function esearch(term: string, retmax: number): Promise<string[]> {
     retmax: String(retmax),
     sort: "relevance",
   });
-  const res = await fetch(`${EUTILS_BASE}/esearch.fcgi?${params.toString()}`);
-  if (!res.ok) {
-    throw new Error(`PubMed ESearch failed: ${res.status} ${res.statusText}`);
-  }
+  const res = await fetchWithRetry(`${EUTILS_BASE}/esearch.fcgi?${params.toString()}`, "PubMed ESearch");
   const data: unknown = await res.json();
   const idlist = getPath(data, ["esearchresult", "idlist"]);
   return Array.isArray(idlist) ? idlist.filter((id): id is string => typeof id === "string") : [];
@@ -124,10 +141,7 @@ export async function fetchStudies(pmids: string[]): Promise<Study[]> {
     retmode: "xml",
   });
 
-  const res = await fetch(`${EUTILS_BASE}/efetch.fcgi?${params.toString()}`);
-  if (!res.ok) {
-    throw new Error(`PubMed EFetch failed: ${res.status} ${res.statusText}`);
-  }
+  const res = await fetchWithRetry(`${EUTILS_BASE}/efetch.fcgi?${params.toString()}`, "PubMed EFetch");
   const xml = await res.text();
 
   const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });

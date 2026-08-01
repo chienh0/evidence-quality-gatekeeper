@@ -5,10 +5,11 @@ import type { ResearchResponse } from "@/lib/types";
 import EvidenceDashboard from "@/components/EvidenceDashboard";
 import SummaryComparison from "@/components/SummaryComparison";
 import Methodology from "@/components/Methodology";
+import Evaluation from "@/components/Evaluation";
 
 const DEMO_QUERY = "best treatment for a poison ivy rash";
 
-type Tab = "research" | "methodology";
+type Tab = "research" | "methodology" | "evaluation";
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>("research");
@@ -47,6 +48,7 @@ export default function Home() {
   const tabs: { id: Tab; label: string }[] = [
     { id: "research", label: "Research" },
     { id: "methodology", label: "Methodology" },
+    { id: "evaluation", label: "Evaluation" },
   ];
 
   return (
@@ -78,6 +80,7 @@ export default function Home() {
         </div>
 
         {tab === "methodology" && <Methodology />}
+        {tab === "evaluation" && <Evaluation />}
 
         {tab === "research" && (
           <div className="flex flex-col gap-8">
@@ -106,7 +109,12 @@ export default function Home() {
 
             {result && (
               <div className="flex flex-col gap-8">
-                <SummaryComparison naive={result.naiveSummary} graded={result.gradedSummary} />
+                <SummaryComparison
+                  naive={result.naiveSummary}
+                  graded={result.gradedSummary}
+                  query={result.query}
+                  studies={result.studies}
+                />
                 <EvidenceDashboard studies={result.studies} />
               </div>
             )}

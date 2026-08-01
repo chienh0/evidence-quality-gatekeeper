@@ -1,0 +1,255 @@
+{
+  "generatedAt": "2026-08-01T23:44:31.403Z",
+  "judgeEnabled": true,
+  "tierRegression": {
+    "pass": true,
+    "cases": [
+      {
+        "pmid": "9500320",
+        "expectedTier": "X",
+        "actualTier": "X",
+        "pass": true,
+        "note": "Wakefield 1998 Lancet paper -- retracted, must always be excluded."
+      },
+      {
+        "pmid": "40511642",
+        "expectedTier": "1",
+        "actualTier": "1",
+        "pass": true,
+        "note": "Cochrane systematic review / meta-analysis (probiotics in infants)."
+      },
+      {
+        "pmid": "7622647",
+        "expectedTier": "2",
+        "actualTier": "2",
+        "pass": true,
+        "note": "Multicenter randomized controlled trial (quaternium-18 bentonite)."
+      },
+      {
+        "pmid": "7994440",
+        "expectedTier": "4",
+        "actualTier": "4",
+        "pass": true,
+        "note": "Case report (poison ivy dermatitis)."
+      },
+      {
+        "pmid": "38925778",
+        "expectedTier": "5",
+        "actualTier": "5",
+        "pass": true,
+        "note": "Narrative review with no stronger structured publication type."
+      }
+    ]
+  },
+  "queries": [
+    {
+      "id": "statins",
+      "query": "statins for cardiovascular disease prevention",
+      "category": "clean-evidence",
+      "timestamp": "2026-08-01T23:40:25.725Z",
+      "studyCount": 20,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "tinnitus",
+      "query": "essential oils for tinnitus",
+      "category": "sparse-evidence",
+      "timestamp": "2026-08-01T23:40:50.159Z",
+      "studyCount": 4,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "vitaminD-depression",
+      "query": "vitamin D supplementation for depression",
+      "category": "contradictory",
+      "timestamp": "2026-08-01T23:41:03.980Z",
+      "studyCount": 16,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "acetaminophen-infant",
+      "query": "safe acetaminophen dosage for infants",
+      "category": "high-stakes",
+      "timestamp": "2026-08-01T23:41:29.339Z",
+      "studyCount": 20,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": false,
+        "issues": [
+          "The summary claims that doses ≤75 mg/kg/day were 'associated with essentially no hepatic injury,' but the cited source (Toxicity from repeated doses of acetaminophen in children) actually states there were '6 cases of hepatic abnormalities' at therapeutic doses ≤75 mg/kg/day. The summary's phrasing obscures this finding and misrepresents the source's conclusion.",
+          "The summary states the 1978 pharmacokinetic paper 'suggested 10 mg/kg per dose is both safe and effective,' but the source text says 'currently, 10 mg/kg is considered to be both safe and effective for antipyresis' — this is a report of convention, not a finding from that study, and the summary's framing overstates what the paper itself demonstrated.",
+          "The summary claims 'peak concentrations generally >9 mg/L' in the preterm IV paracetamol study, but the source states 'All randomized subjects, except for 3 who received 10 mg/kg of paracetamol, had peak paracetamol concentrations >9 mg/L' — this is a qualified statement, not an unqualified claim of 'generally,' and the summary omits the exception."
+        ]
+      },
+      "pass": false,
+      "failReasons": [
+        "Faithfulness judge flagged issues: The summary claims that doses ≤75 mg/kg/day were 'associated with essentially no hepatic injury,' but the cited source (Toxicity from repeated doses of acetaminophen in children) actually states there were '6 cases of hepatic abnormalities' at therapeutic doses ≤75 mg/kg/day. The summary's phrasing obscures this finding and misrepresents the source's conclusion.; The summary states the 1978 pharmacokinetic paper 'suggested 10 mg/kg per dose is both safe and effective,' but the source text says 'currently, 10 mg/kg is considered to be both safe and effective for antipyresis' — this is a report of convention, not a finding from that study, and the summary's framing overstates what the paper itself demonstrated.; The summary claims 'peak concentrations generally >9 mg/L' in the preterm IV paracetamol study, but the source states 'All randomized subjects, except for 3 who received 10 mg/kg of paracetamol, had peak paracetamol concentrations >9 mg/L' — this is a qualified statement, not an unqualified claim of 'generally,' and the summary omits the exception."
+      ]
+    },
+    {
+      "id": "vaccine-autism-retracted",
+      "query": "retracted publication[pt] vaccine autism",
+      "category": "adversarial-retracted",
+      "timestamp": "2026-08-01T23:41:59.388Z",
+      "studyCount": 9,
+      "excludedCount": 9,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "poison-ivy",
+      "query": "best treatment for a poison ivy rash",
+      "category": "general",
+      "timestamp": "2026-08-01T23:42:16.689Z",
+      "studyCount": 3,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "eczema-infant",
+      "query": "eczema treatment infant",
+      "category": "clean-evidence",
+      "timestamp": "2026-08-01T23:42:33.291Z",
+      "studyCount": 20,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "melatonin-sleep",
+      "query": "melatonin for children's sleep problems",
+      "category": "general",
+      "timestamp": "2026-08-01T23:42:59.176Z",
+      "studyCount": 19,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "ssri-teens",
+      "query": "SSRI antidepressants for teenagers",
+      "category": "high-stakes",
+      "timestamp": "2026-08-01T23:43:21.484Z",
+      "studyCount": 19,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": false,
+        "issues": [
+          "The summary states that 'Much of the teen-specific guidance is Tier 5 (expert reviews/guidelines)' and asserts this should be treated as 'lower-confidence, consensus-based input.' However, sources 12, 13, 14, 15, and 16 are labeled Tier 5 but are actually clinical practice guidelines and systematic reviews of evidence, not purely expert opinion pieces. The characterization misrepresents the nature of these sources.",
+          "The summary claims 'no Tier 1 meta-analysis specifically pooling SSRI efficacy in adolescent depression was provided here.' However, source 8 (TADS) is explicitly labeled Tier 2, not Tier 1. The summary accurately states it is Tier 2 but then the caveat about lack of Tier 1 evidence is not clearly connected to this acknowledgment.",
+          "The summary states that sources on pregnancy/perinatal outcomes are 'not directly relevant to teenage patients.' While largely true, source 18 (Maternal Use of Specific Antidepressant Medications During Early Pregnancy) is a case-control study examining birth defects from early pregnancy antidepressant use in adult women. This source has no direct relevance to SSRIs in teenagers and should not have been reviewed as part of the source set for this question. However, the summary appropriately excluded it, so this is not an error in the summary itself.",
+          "The summary claims the TADS trial found fluoxetine produced '60.6% vs 34.8%' response rates compared to placebo. Source 8 confirms these exact figures are correct and properly cited."
+        ]
+      },
+      "pass": false,
+      "failReasons": [
+        "Faithfulness judge flagged issues: The summary states that 'Much of the teen-specific guidance is Tier 5 (expert reviews/guidelines)' and asserts this should be treated as 'lower-confidence, consensus-based input.' However, sources 12, 13, 14, 15, and 16 are labeled Tier 5 but are actually clinical practice guidelines and systematic reviews of evidence, not purely expert opinion pieces. The characterization misrepresents the nature of these sources.; The summary claims 'no Tier 1 meta-analysis specifically pooling SSRI efficacy in adolescent depression was provided here.' However, source 8 (TADS) is explicitly labeled Tier 2, not Tier 1. The summary accurately states it is Tier 2 but then the caveat about lack of Tier 1 evidence is not clearly connected to this acknowledgment.; The summary states that sources on pregnancy/perinatal outcomes are 'not directly relevant to teenage patients.' While largely true, source 18 (Maternal Use of Specific Antidepressant Medications During Early Pregnancy) is a case-control study examining birth defects from early pregnancy antidepressant use in adult women. This source has no direct relevance to SSRIs in teenagers and should not have been reviewed as part of the source set for this question. However, the summary appropriately excluded it, so this is not an error in the summary itself.; The summary claims the TADS trial found fluoxetine produced '60.6% vs 34.8%' response rates compared to placebo. Source 8 confirms these exact figures are correct and properly cited."
+      ]
+    },
+    {
+      "id": "turmeric-arthritis",
+      "query": "turmeric curcumin for arthritis pain",
+      "category": "sparse-evidence",
+      "timestamp": "2026-08-01T23:43:46.710Z",
+      "studyCount": 16,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "homeopathy-allergies",
+      "query": "homeopathy for allergies",
+      "category": "contradictory",
+      "timestamp": "2026-08-01T23:44:08.441Z",
+      "studyCount": 20,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "judge": {
+        "faithful": true,
+        "issues": []
+      },
+      "pass": true,
+      "failReasons": []
+    },
+    {
+      "id": "nonsense-empty",
+      "query": "\"xyzzyplugh1234 nonexistent condition qwertasdf\"[tiab]",
+      "category": "empty",
+      "timestamp": "2026-08-01T23:44:31.043Z",
+      "studyCount": 0,
+      "excludedCount": 0,
+      "naiveTruncated": false,
+      "gradedTruncated": false,
+      "leakedTitles": [],
+      "pass": true,
+      "failReasons": []
+    }
+  ]
+}

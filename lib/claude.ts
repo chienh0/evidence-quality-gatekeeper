@@ -44,19 +44,21 @@ function formatForGraded(query: string, includedStudies: Study[], excludedCount:
   return `Health question: ${query}\n\nSources, each labeled with an evidence tier:\n\n${body}${exclusionNote}`;
 }
 
-function extractText(message: Anthropic.Message, label: string): string {
-  if (message.stop_reason === "max_tokens") {
+function toSummaryResult(message: Anthropic.Message, label: string): SummaryResult {
+  const truncated = message.stop_reason === "max_tokens";
+  if (truncated) {
     console.warn(`${label} summary hit max_tokens and was truncated mid-response.`);
   }
-  return message.content
+  const text = message.content
     .filter((block): block is Anthropic.TextBlock => block.type === "text")
     .map((block) => block.text)
     .join("\n");
+  return { text, truncated };
 }
 
 export async function naiveSummary(query: string, studies: Study[]): Promise<SummaryResult> {
   if (studies.length === 0) {
-    return { text: "No sources were found for this query." };
+    return { text: "No sources were found for this query.", truncated: false };
   }
   const client = getClient();
   const message = await client.messages.create({
@@ -71,7 +73,7 @@ export async function naiveSummary(query: string, studies: Study[]): Promise<Sum
     output_config: { effort: "low" },
     messages: [{ role: "user", content: formatForNaive(query, studies) }],
   });
-  return { text: extractText(message, "Naive") };
+  return toSummaryResult(message, "Naive");
 }
 
 /**
@@ -90,6 +92,7 @@ export async function gradedSummary(query: string, studies: Study[]): Promise<Su
         excludedCount > 0
           ? `No usable evidence was found: all ${excludedCount} retrieved source(s) were excluded (retracted publications).`
           : "No sources were found for this query.",
+      truncated: false,
     };
   }
 
@@ -101,5 +104,5 @@ export async function gradedSummary(query: string, studies: Study[]): Promise<Su
     output_config: { effort: "low" },
     messages: [{ role: "user", content: formatForGraded(query, included, excludedCount) }],
   });
-  return { text: extractText(message, "Graded") };
+  return toSummaryResult(message, "Graded");
 }

@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
     const response: ResearchResponse = {
       query,
       studies: [],
-      naiveSummary: { text: "No sources were found for this query." },
-      gradedSummary: { text: "No sources were found for this query." },
+      naiveSummary: { text: "No sources were found for this query.", truncated: false },
+      gradedSummary: { text: "No sources were found for this query.", truncated: false },
     };
     return NextResponse.json(response);
   }

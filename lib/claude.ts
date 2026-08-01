@@ -44,7 +44,10 @@ function formatForGraded(query: string, includedStudies: Study[], excludedCount:
   return `Health question: ${query}\n\nSources, each labeled with an evidence tier:\n\n${body}${exclusionNote}`;
 }
 
-function extractText(message: Anthropic.Message): string {
+function extractText(message: Anthropic.Message, label: string): string {
+  if (message.stop_reason === "max_tokens") {
+    console.warn(`${label} summary hit max_tokens and was truncated mid-response.`);
+  }
   return message.content
     .filter((block): block is Anthropic.TextBlock => block.type === "text")
     .map((block) => block.text)
@@ -58,11 +61,15 @@ export async function naiveSummary(query: string, studies: Study[]): Promise<Sum
   const client = getClient();
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 700,
+    // Claude Sonnet 5 runs adaptive thinking by default when `thinking` is
+    // omitted, and thinking tokens count against max_tokens even though
+    // they're invisible -- a low cap here truncates the visible summary
+    // mid-sentence before it finishes, not just runs long summaries short.
+    max_tokens: 2048,
     system: NAIVE_SYSTEM,
     messages: [{ role: "user", content: formatForNaive(query, studies) }],
   });
-  return { text: extractText(message) };
+  return { text: extractText(message, "Naive") };
 }
 
 /**
@@ -87,9 +94,9 @@ export async function gradedSummary(query: string, studies: Study[]): Promise<Su
   const client = getClient();
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 700,
+    max_tokens: 2048,
     system: GRADED_SYSTEM,
     messages: [{ role: "user", content: formatForGraded(query, included, excludedCount) }],
   });
-  return { text: extractText(message) };
+  return { text: extractText(message, "Graded") };
 }

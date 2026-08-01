@@ -63,10 +63,12 @@ export async function naiveSummary(query: string, studies: Study[]): Promise<Sum
     model: MODEL,
     // Claude Sonnet 5 runs adaptive thinking by default when `thinking` is
     // omitted, and thinking tokens count against max_tokens even though
-    // they're invisible -- a low cap here truncates the visible summary
-    // mid-sentence before it finishes, not just runs long summaries short.
-    max_tokens: 2048,
+    // they're invisible. This is a bounded synthesis task, not multi-step
+    // reasoning, so cap effort low to keep thinking-token spend small and
+    // predictable, with max_tokens as a generous safety margin on top.
+    max_tokens: 4096,
     system: NAIVE_SYSTEM,
+    output_config: { effort: "low" },
     messages: [{ role: "user", content: formatForNaive(query, studies) }],
   });
   return { text: extractText(message, "Naive") };
@@ -94,8 +96,9 @@ export async function gradedSummary(query: string, studies: Study[]): Promise<Su
   const client = getClient();
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 2048,
+    max_tokens: 4096,
     system: GRADED_SYSTEM,
+    output_config: { effort: "low" },
     messages: [{ role: "user", content: formatForGraded(query, included, excludedCount) }],
   });
   return { text: extractText(message, "Graded") };
